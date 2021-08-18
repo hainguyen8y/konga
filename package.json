@@ -62,7 +62,7 @@
     "mocha": "9.0.3",
     "nyc": "15.1.0",
     "should": "7.1.1",
-    "supertest": "1.1.0"
+    "supertest": "2.0.1"
   },
   "scripts": {
     "postinstall": "bower --allow-root install",
