@@ -59,7 +59,8 @@
   },
   "devDependencies": {
     "chai": "3.4.0",
-    "mocha": "^5.2.0",
+    "mocha": "9.0.3",
+    "nyc": "15.1.0",
     "should": "7.1.1",
     "supertest": "1.1.0"
   },
@@ -68,7 +69,7 @@
     "start": "node --harmony app.js",
     "production": "node --harmony app.js --prod",
     "debug": "node debug app.js",
-    "test": "mocha",
+    "test": "nyc mocha --timeout 60000 --reporter spec --ui bdd test/**/*.test.js",
     "bower-deps": "bower --allow-root install"
   },
   "main": "app.js",

@@ -125,4 +125,4 @@ nbproject
 /.env
 .env
 /seeds/
-/seeds/
+.nyc_output
