@@ -1,0 +1,10 @@
+---
+extends: default
+
+ignore: |
+  charts/konga/templates/**
+
+rules:
+  line-length:
+    max: 150
+    level: warning
