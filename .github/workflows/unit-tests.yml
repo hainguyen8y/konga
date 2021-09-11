@@ -15,7 +15,7 @@ env:
 
 jobs:
   unit_tests:
-    name: Test
+    name: Lint and Test
     timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
@@ -25,12 +25,14 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-npm-
       - name: Compile
         if: ${{ steps.cache.outputs.cache-hit != 'true' }}
         run: npm install
+      - name: Lint
+        run: npm run lint
       - name: Unit tests
         run: npm test
         if: github.ref != 'refs/heads/main'
