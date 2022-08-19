@@ -1,14 +1,13 @@
 FROM node:12.16-alpine
 
-COPY . /app
+RUN apk upgrade --update \
+    && apk --no-cache add python bash git ca-certificates
 
 WORKDIR /app
-
-RUN apk upgrade --update \
-    && apk add bash git ca-certificates \
-    && npm install -g bower patch-package\
+COPY . /app
+RUN npm install -g bower patch-package \
     && npm --unsafe-perm --production install \
-    && apk del git \
+    && apk del python git \
     && rm -rf /var/cache/apk/* \
         /app/.git \
         /app/screenshots \

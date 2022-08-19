@@ -10,7 +10,6 @@ const SnapshotsService = require('../services/SnapshotsService');
 const _ = require('lodash')
 const async = require('async');
 const fs = require('fs');
-const semver = require('semver');
 
 /**
  * Custom logic functions
