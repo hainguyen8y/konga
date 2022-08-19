@@ -11,23 +11,37 @@ data:
   {{- if .Values.config }}
   PORT: "{{ default 1337 .Values.config.port }}"
   NODE_ENV: {{ default "development" .Values.config.node_env }}
+  NODE_TLS_REJECT_UNAUTHORIZED: "{{ .Values.config.node_tls_reject_unauthorized}}"
+  {{- if .Values.config.ssl_key_path }}
   SSL_KEY_PATH: {{ .Values.config.ssl_key_path }}
+  {{- end }}
+  {{- if .Values.config.ssl_crt_path }}
   SSL_CRT_PATH: {{ .Values.config.ssl_crt_path }}
+  {{- end }}
   KONGA_HOOK_TIMEOUT: "{{ default 60000 .Values.config.konga_hook_timeout }}"
-  DB_ADAPTER: {{ default "postgres" .Values.config.db_adapter }}
+  {{- $db_adapter := (default "localDiskDb" .Values.config.db_adapter) }}
+  DB_ADAPTER: {{ $db_adapter }}
+  DB_IS_PG12_OR_NEWER: "{{ .Values.config.is_version_12_or_newer }}"
+  DB_SSL: "{{ .Values.config.db_ssl }}"
+  {{- if ne $db_adapter "localDiskDb" }}
+  {{- if .Values.config.db_uri }}
   DB_URI: {{ .Values.config.db_uri }}
+  {{- else }}
   DB_HOST: {{ default "localhost" .Values.config.db_host }}
   DB_PORT: "{{ default 5432 .Values.config.db_port }}"
   DB_USER: {{ .Values.config.db_user }}
   DB_PASSWORD: {{ .Values.config.db_password }}
-  DB_DATABASE: {{ default "konga_database" .Values.config.db_database }}
+  {{- if eq $db_adapter "postgres" }}
   DB_PG_SCHEMA: {{ default "public" .Values.config.db_pg_schema }}
+  {{- end }}
+  {{- end }}
+  DB_DATABASE: {{ default "konga_database" .Values.config.db_database }}
+  {{- end }}
   {{- if eq .Values.config.node_env "development" }}
   KONGA_LOG_LEVEL: {{ default "debug" .Values.config.log_level }}
   {{ else if eq .Values.config.node_env "production" }}
   KONGA_LOG_LEVEL: {{ default "warn" .Values.config.log_level }}
   {{- end }}
-  TOKEN_SECRET: {{ .Values.config.token_secret }}
   KONGA_SEED_KONG_NODE_DATA_SOURCE_FILE: "{{ .Values.config.konga_node_data }}"
   KONGA_SEED_USER_DATA_SOURCE_FILE: "{{ .Values.config.konga_user_data }}"
   {{- end }}

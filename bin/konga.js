@@ -80,7 +80,7 @@ else if(argv._[0] === 'prepare') {
       }
 
       sails.log("Database migrations completed!")
-      process.exit()
+      process.exit(0)
 
     });
   });
